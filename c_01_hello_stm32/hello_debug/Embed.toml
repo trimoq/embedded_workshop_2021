@@ -1,0 +1,9 @@
+[default.probe]
+# protocol = "Swd"
+protocol = "Jtag"
+
+[default.general]
+chip = "stm32f411re"
+
+[default.gdb]
+enabled = true

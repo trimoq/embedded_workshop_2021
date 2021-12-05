@@ -1,0 +1,37 @@
+[package]
+name = "btn"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+cortex-m = "0.7"
+cortex-m-rt = "0.6"
+# embedded-hal = "0.2"
+stm32f4xx-hal = { version = "0.10", features = ["rt", "stm32f411"] }
+rtt-target = {version="0.3.1",  features = ["cortex-m"]}
+panic-halt = "0.2.0"
+panic-probe = { version = "0.3.0", features = ["print-rtt"] }
+
+
+[[bin]]
+name="btn_hello"
+
+
+[[bin]]
+name="btn_toggle"
+
+[[bin]]
+name="btn_cleaned"
+
+[[bin]]
+name="btn_atomic"
+
+
+[profile.release]
+codegen-units = 1
+debug = 2
+debug-assertions = false
+incremental = false
+lto = 'fat'
+opt-level = 3
+overflow-checks = false
