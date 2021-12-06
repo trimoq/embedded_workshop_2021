@@ -36,7 +36,7 @@ mod app {
 
         let led = device.GPIOA.split().pa5.into_push_pull_output();
 
-        let mut timer = Timer::new(device.TIM2, &clocks).start_count_down(50.khz());
+        let mut timer = Timer::new(device.TIM2, &clocks).start_count_down(20.hz());
         timer.listen(Event::TimeOut);
 
         (Shared {}, Local {led, timer}, init::Monotonics())
