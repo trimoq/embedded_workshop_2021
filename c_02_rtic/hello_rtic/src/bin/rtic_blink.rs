@@ -20,9 +20,7 @@ mod app {
     struct Shared {}
 
     #[local]
-    struct Local {
-        led: PA5<Output<PushPull>>
-    }
+    struct Local {}
 
     // We run at 84Mhz
     const MONO_HZ : u32 = 84_000_000;
@@ -39,9 +37,9 @@ mod app {
         let rcc = ctx.device.RCC.constrain();
         let _clocks = rcc.cfgr.sysclk(84.mhz()).freeze();
 
-        let led = ctx.device.GPIOA.split().pa5.into_push_pull_output();
+        // TODO setup led here
 
-        // Debug Control Block and Data Watchpoint and Trace unit as hacks
+        // Use Debug Control Block and Data Watchpoint and Trace unit as hacks
         let mut dcb = ctx.core.DCB;
         let dwt = ctx.core.DWT;
         let systick = ctx.core.SYST;
@@ -50,16 +48,15 @@ mod app {
         let mono = DwtSystick::new(&mut dcb, dwt, systick, MONO_HZ);
         
         toggle_task::spawn().ok();
-        (Shared {}, Local { led }, init::Monotonics(mono))
+        (Shared {}, Local {  }, init::Monotonics(mono))
     }
 
 
-
-    #[task(local = [led])]
+    // TODO adjust `shared` or `local` here 
+    #[task(local = [])]
     fn toggle_task(ctx: toggle_task::Context) {
         rprintln!("RTIC toggle");
         toggle_task::spawn_after(1.secs()).ok();
-        ctx.local.led.toggle();
     }
 
     /**

@@ -12,8 +12,7 @@ use stm32f4xx_hal::{delay::Delay, prelude::*, pac, interrupt};
 use btn::*;
 
 static G_BUTTON: Mutex<RefCell<Option<BtnPin>>> = Mutex::new(RefCell::new(None));
-static CTR: AtomicU16 = AtomicU16::new(0);
-
+// TODO define an appropriate counter
 
 #[entry]
 fn main() -> ! {
@@ -33,12 +32,7 @@ fn main() -> ! {
     }    
 
     loop {
-        if CTR.load(Ordering::SeqCst) % 2 == 0 {
-            led.set_high();
-        }
-        else{
-            led.set_low();
-        }
+        // TODO use the main loop to toggle the led
         wfi();
     }
 }
@@ -49,9 +43,9 @@ fn EXTI15_10() {
 
     let button = steal!(BUTTON, G_BUTTON);
 
-    cortex_m::interrupt::free(|_cs| {
-        button.clear_interrupt_pending_bit();
-    });
-    let _ = CTR.fetch_add(1, Ordering::SeqCst);
+    // TODO  clear the interrupt pending bit on the button
+
+    // TODO  do something so that the main loop can toggle the led
+
 }
 

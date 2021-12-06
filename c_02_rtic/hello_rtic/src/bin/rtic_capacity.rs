@@ -32,7 +32,8 @@ mod app {
     }
 
     #[local]
-    struct Local {    }
+    struct Local {
+    }
 
     #[init]
     fn init(ctx: init::Context) -> (Shared, Local, init::Monotonics) {
@@ -62,6 +63,9 @@ mod app {
             .scan(Scan::Enabled)
             .clock(Clock::Pclk2_div_8);
 
+        
+        // TODO setup led
+
         let mut adc = Adc::adc1(device.ADC1, true, adc_config);
         adc.configure_channel(&voltage, Sequence::One, SampleTime::Cycles_480);
 
@@ -69,7 +73,7 @@ mod app {
 
         (
             Shared { adc },
-            Local { },
+            Local {},
             init::Monotonics(mono),
         )
     }
@@ -82,13 +86,14 @@ mod app {
         polling::spawn_after(10.millis()).ok();
     }
 
+    // TODO adjust `shared` or `local` here 
     #[task(binds = ADC, shared = [adc], local = [])]
     fn adc_task(mut ctx: adc_task::Context) {
         // rprint!("adc_task triggered");
         let sample = ctx.shared.adc.lock(|adc|{
             adc.current_sample()
         });
-        rprintln!("value: {}", sample);
+        // TODO decide whether to toggle led
     }
 
     /**

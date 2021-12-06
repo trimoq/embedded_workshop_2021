@@ -31,11 +31,10 @@ fn main() -> ! {
     
     rprintln!("Hello, world!"); 
 
-    let mut ctr = 0;
-
     loop {
-        rprintln!("ctr: {}",ctr); 
-        ctr+=1;
+        
+        // TODO print and increment a counter, use the `rprintln` macro
+
         led.toggle();
         delay.delay_ms(200u16);
     }

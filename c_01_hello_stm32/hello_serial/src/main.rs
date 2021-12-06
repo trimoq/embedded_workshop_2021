@@ -26,23 +26,17 @@ fn main() -> ! {
     let mut delay = Delay::new(core.SYST, &clocks);
 
     let gpioa = device.GPIOA.split();
-    let tx_pin = gpioa.pa2.into_alternate();
-    let serial_config = Config::default().baudrate(9600.bps());
-    let usart = device.USART2;
-
-    // configure serial
-    let mut tx = Serial::tx(
-        usart,
-        tx_pin,
-        serial_config,
-        clocks,
-    ).unwrap();
+    
+    /* TODO
+    * Setup PA2 as tx pin
+    * use USART2 as usart device
+    * use the default config with a baudrate of 9600 bps
+    * Create a serial device with `Serial::tx`
+    */
 
 
-    let mut ctr = 0u8;    
     loop {
-        writeln!(tx, "value: {:02}\r", ctr).unwrap();
-        ctr+=1;
+        // TODO write counter value with the `writeln!` macro to out serial device
         delay.delay_ms(50u16);
     }
 }

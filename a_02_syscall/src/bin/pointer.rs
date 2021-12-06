@@ -12,22 +12,23 @@ fn foo(){
     // println!("pointer: {}", *pointer2);
 
     unsafe{
-        println!("pointer: {}", *pointer);
+        println!("*pointer: {}", *pointer);
     }
 
-    let lol = unsafe{
-        println!("lol: {}", *(pointer as *mut u8));
+    let bad_ptr = unsafe{
+        println!("*bad_cast: {}", *(pointer as *mut u8));
         let mut ptr = pointer as u64;
         ptr += 1;
         ptr as *mut u8
     };
-    println!("lol ptr: {:p}", lol);
+    println!("bad ptr: {:p}", bad_ptr);
     unsafe{
-        println!("lol: {}", *lol);
+        println!("bad_ptr: {}", *bad_ptr);
     }
-
-
-
+    // unsafe{
+    //     println!("probably worse: {}", *((bad_ptr as u64 + 100)as *mut u8));
+    //     println!("even worse: {}", *(0 as *mut u8));
+    // }
 }
 
 fn main(){
@@ -40,5 +41,7 @@ fn main(){
     unsafe{
         println!("*ptr: {}", *ptr);
     }
+
+    foo();
 
 }
